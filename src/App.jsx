@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 
 function App() {
   const [politicians, setPoliticians] = useState([]);
@@ -21,14 +21,30 @@ function App() {
     fetchPoliticians();
   }, []);
 
+  const [search, setSearch] = useState("");
+  const filteredList = useMemo(() => {
+    return politicians.filter(
+      (p) =>
+        p.name.toLowerCase().includes(search.toLowerCase()) ||
+        p.biography.toLowerCase().includes(search.toLowerCase())
+    );
+  }, [politicians, search]);
+
   return (
     <>
-      <div className="container mx-auto bg-amber-400">
-        <h1 className="text-6xl italic font-bold flex justify-center align-middle mb-5">
-          Lista Politici
-        </h1>
+      <div className="container mx-auto bg-amber-400 pb-10">
+        <div className="flex justify-center align-middle mb-5 relative">
+          <h1 className="text-6xl italic font-bold  ">Lista Politici</h1>
+          <input
+            type="text"
+            placeholder="🔍 Search"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="border bg-amber-50 h-6 w-30 mt-6 absolute right-2.5 rounded-2xl p-1"
+          />
+        </div>
         <div className="flex flex-wrap justify-center gap-4">
-          {politicians.map((politician, id) => {
+          {filteredList.map((politician, id) => {
             return (
               <div
                 key={id}
