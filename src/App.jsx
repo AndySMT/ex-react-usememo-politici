@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
+import Card from "./components/Card";
 
 function App() {
   const [politicians, setPoliticians] = useState([]);
@@ -45,25 +46,7 @@ function App() {
         </div>
         <div className="flex flex-wrap justify-center gap-4">
           {filteredList.map((politician, id) => {
-            return (
-              <div
-                key={id}
-                className="max-w-sm bg-white rounded-lg overflow-hidden"
-              >
-                <div className="p-2 flex justify-center items-cente">
-                  <img
-                    src={politician.image}
-                    alt={politician.name}
-                    className="w-auto h-100"
-                  />
-                </div>
-                <div className="flex justify-between font-bold m-4">
-                  <p>{politician.name}</p>
-                  <p className="italic">{politician.position}</p>
-                </div>
-                <p className="p-1 m-2">{politician.biography}</p>
-              </div>
-            );
+            return <Card key={id} politician={politician} />;
           })}
         </div>
       </div>
