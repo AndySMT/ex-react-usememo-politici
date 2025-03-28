@@ -25,12 +25,14 @@ function App() {
   }, []);
 
   const filteredList = useMemo(() => {
-    return politicians.filter(
-      (p) =>
+    return politicians.filter((p) => {
+      const searchNome =
         p.name.toLowerCase().includes(search.toLowerCase()) ||
-        p.biography.toLowerCase().includes(search.toLowerCase())
-    );
-  }, [politicians, search]);
+        p.biography.toLowerCase().includes(search.toLowerCase());
+      const searchPosition = position ? p.position === position : true;
+      return searchNome && searchPosition;
+    });
+  }, [politicians, search, position]);
 
   const filteredPosition = useMemo(() => {
     return [...new Set(politicians.map((p) => p.position))];
